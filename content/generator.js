@@ -12,8 +12,18 @@ const __dir = dirname(fileURLToPath(import.meta.url));
 
 const args = process.argv.slice(2);
 const topic = args.find(a => !a.startsWith('--'));
-const channel = args.find(a => a.startsWith('--channel='))?.split('=')[1] || 'wechat';
-const lang = args.find(a => a.startsWith('--lang='))?.split('=')[1] || 'zh';
+
+// Support both --flag=value and --flag value
+function getFlag(name, defaultVal) {
+  const eq = args.find(a => a.startsWith(`--${name}=`));
+  if (eq) return eq.split('=')[1];
+  const idx = args.indexOf(`--${name}`);
+  if (idx !== -1 && args[idx + 1] && !args[idx + 1].startsWith('--')) return args[idx + 1];
+  return defaultVal;
+}
+
+const channel = getFlag('channel', 'wechat');
+const lang    = getFlag('lang', 'zh');
 
 if (!topic) {
   console.error('Usage: node generator.js "topic" --channel wechat --lang zh');
