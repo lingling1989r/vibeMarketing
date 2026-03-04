@@ -1,0 +1,17 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# Raw TTS source files (re-generate with macOS say command)
+public/audio/*.aiff
+
+# Intermediate audio build artifacts
+public/audio/voiceover_combined.mp3
+public/audio/bg_music_raw.mp3
+public/audio/bg_shimmer.mp3
+
+# Remotion bundle cache
+.cache/
+
+# OS
+.DS_Store
