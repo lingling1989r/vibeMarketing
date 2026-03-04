@@ -1,0 +1,14 @@
+{
+  "name": "podaha-trending",
+  "version": "1.0.0",
+  "description": "Daily trending topic report for PodAha content operations",
+  "type": "module",
+  "scripts": {
+    "report": "node index.js",
+    "research": "node research.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "dayjs": "^1.11.10"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "podaha-distributor",
+  "version": "1.0.0",
+  "description": "Multi-platform content formatter for PodAha articles",
+  "type": "module",
+  "scripts": {
+    "format": "node index.js"
+  },
+  "dependencies": {
+    "marked": "^12.0.0",
+    "dayjs": "^1.11.10"
+  }
+}
