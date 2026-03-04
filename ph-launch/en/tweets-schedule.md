@@ -50,6 +50,42 @@ None of them solved the full workflow.
 ```
 
 ```
+[4/7] The real cost isn't money. It's consistency.
+
+When editing takes 6 hours, you skip weeks.
+When you skip weeks, your audience stops growing.
+When your audience stops growing, you question whether it's worth it.
+
+Most podcasts don't die from bad content.
+They die from production burnout.
+```
+
+```
+[5/7] So I mapped out what the ideal workflow would look like:
+
+Upload audio
+↓ AI removes noise + filler words (automatic)
+↓ Transcript generated with timestamps (2 min review)
+↓ Show notes written by AI (quick edit)
+↓ Best clips extracted for social (1-click)
+↓ Published to Spotify + Apple (1-click)
+
+Total time: under 1 hour.
+```
+
+```
+[6/7] I validated the idea the hard way:
+
+Built a rough version. Used it myself for 3 months.
+Went from publishing 1x/month → 3x/month.
+
+Then let 50 early users try it.
+Average time saved: 4-6 hours per episode.
+
+The feedback that stuck: "I finally feel like a real podcaster."
+```
+
+```
 [7/7] So I built @PodAha — AI that handles the full post-production pipeline.
 
 Upload audio → get transcript + cleaned audio + show notes + social clips +
