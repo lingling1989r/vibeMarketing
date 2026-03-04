@@ -3,15 +3,15 @@ _测试日期：2026-03-04_
 
 ---
 
-## 测试范围
+## 模块总览
 
-| 模块 | 脚本 | Skill |
-|------|------|-------|
-| 运营规划 | `planning/weekly.js` | `/plan` |
-| 内容生产 | `content/generator.js` | `/draft` |
-| 渠道分发 | `distributor/index.js` | `/distribute` |
-| 发布器 | `distributor/publishers/en/*.js` × 5 | — |
-| 发布器 | `distributor/publishers/cn/*.js` × 3 | — |
+| 模块 | 脚本 | Skill | 状态 |
+|------|------|-------|------|
+| 运营规划 | `planning/weekly.js` | `/plan` | ✅ |
+| 内容生产 | `content/generator.js` | `/draft` | ✅ |
+| 渠道分发 | `distributor/index.js` | `/distribute` | ✅ |
+| 小红书卡片 | `content/tools/.../render_xhs.py` | `/redbook` | ✅ |
+| 口播剪辑 | `content/tools/videocut-skills/` | `/videocut` | ✅ (待API Key) |
 
 ---
 
@@ -19,10 +19,10 @@ _测试日期：2026-03-04_
 
 | 测试用例 | 命令 | 结果 |
 |----------|------|------|
-| 无参数（本周任务） | `node weekly.js` | ✅ 正常输出，含彩色状态标记 |
-| 完整日历 | `node weekly.js --all` | ✅ 输出 D-14 到 D-0 所有 slot |
-| 按渠道过滤 | `node weekly.js --channel=twitter` | ✅ 正确过滤，仅显示 twitter 任务 |
-| 按状态过滤 | `node weekly.js --status=planned` | ✅ 正确过滤 5 个 planned 任务 |
+| 无参数（本周任务） | `node weekly.js` | ✅ 彩色状态标记正常 |
+| 完整日历 | `node weekly.js --all` | ✅ 输出 D-14 到 D-0 |
+| 按渠道过滤 | `node weekly.js --channel=twitter` | ✅ 正确过滤 |
+| 按状态过滤 | `node weekly.js --status=planned` | ✅ 5 个 planned 任务 |
 
 **结论：✅ 全部通过**
 
@@ -32,83 +32,118 @@ _测试日期：2026-03-04_
 
 ### Bug 修复
 
-**发现：** 参数解析只支持 `--flag=value`，不支持 `--flag value` 空格语法，导致 `--channel twitter --lang en` 被忽略，全部 fallback 到 wechat/zh。
+原参数解析只支持 `--flag=value`，不支持 `--flag value`，修复后两种写法均可用。
 
-**修复：** 重写参数解析逻辑，同时支持两种语法。
+| 测试用例 | 结果 |
+|----------|------|
+| `--channel=wechat --lang=zh` | ✅ 2000+ 字故事体 |
+| `--channel twitter --lang en`（空格语法修复后） | ✅ 7-tweet thread |
+| `--channel=zhihu --lang=zh` | ✅ 专业问答体 |
+| 无 API Key | ✅ 提示错误后退出 |
+| 无话题参数 | ✅ 提示 Usage |
+| 文件保存路径 | ✅ `YYYY-MM-DD-channel-slug.md` |
 
-| 测试用例 | 命令 | 结果 |
-|----------|------|------|
-| 中文微信（等号语法） | `node generator.js "话题" --channel=wechat --lang=zh` | ✅ 生成 2000+ 字故事体文章 |
-| 英文 Twitter（空格语法修复后） | `node generator.js "话题" --channel twitter --lang en` | ✅ 生成 7-tweet thread |
-| 知乎渠道 | `node generator.js "话题" --channel=zhihu --lang=zh` | ✅ 生成专业问答体文章 |
-| 无 API Key | 删除 ANTHROPIC_API_KEY 后运行 | ✅ 提示 "Set ANTHROPIC_API_KEY" 后退出 |
-| 无话题参数 | `node generator.js` | ✅ 提示 Usage 后退出 |
-| 文件保存 | 运行后检查 content/library/ | ✅ 文件以 `YYYY-MM-DD-channel-slug.md` 命名保存 |
-
-**结论：✅ 全部通过（修复 1 个 arg 解析 bug）**
+**结论：✅ 全部通过（修复 1 个 bug）**
 
 ---
 
 ## 三、`/distribute` — distributor/index.js
 
-| 测试用例 | 命令 | 结果 |
-|----------|------|------|
-| 格式化模式 | `node index.js articles/test-podaha.md` | ✅ 生成 wechat.html / baijiahao.txt / sohu.txt / zhihu.md / juejin.md |
-| 英文平台发布（无 Token） | `--publish --lang=en` | ✅ 5 个平台全部显示 ⏭️ + 明确列出缺少的变量名 |
-| 中文平台发布（无 Cookie） | `--publish --lang=zh` | ✅ 6 个平台全部显示 ⏭️ + 明确列出缺少的变量名 |
-| 单平台指定 | `--publish --platform=devto` | ✅ 仅处理 devto，输出正确 |
-| 草稿模式 | `--publish --lang=en --draft` | ✅ 显示 "📝 模式: 草稿" 提示 |
-| 未知平台 | `--publish --platform=unknown` | ✅ 提示未知平台 + 列出所有支持平台后 exit 1 |
-| 无文章路径 | `node index.js` | ✅ 提示 Usage 后退出 |
-| 文件不存在 | `node index.js 不存在.md` | ✅ 提示 "File not found" 后退出 |
+| 测试用例 | 结果 |
+|----------|------|
+| 格式化模式 | ✅ 生成 wechat/baijiahao/sohu/zhihu/juejin 5 份文件 |
+| EN 发布（无 Token） | ✅ 5 个平台全部 ⏭️ + 列出缺少变量名 |
+| CN 发布（无 Cookie） | ✅ 6 个平台全部 ⏭️ + 列出缺少变量名 |
+| `--platform=devto` 单平台 | ✅ 只处理 devto |
+| `--draft` 草稿模式 | ✅ 显示 "草稿" 提示 |
+| `--platform=unknown` 未知平台 | ✅ 报错 + 列出支持平台 |
+| 无文章路径 | ✅ 提示 Usage |
+| 文件不存在 | ✅ 提示 File not found |
+| 11 个发布器语法检查 | ✅ 全部 `node --check` 通过 |
 
 **结论：✅ 全部通过**
 
 ---
 
-## 四、发布器语法检查
+## 四、`/redbook` — auto-redbook (zrt-ai-lab/opencode-skills)
 
-| 文件 | 检查方式 | 结果 |
+**安装路径：** `content/tools/opencode-skills/auto-redbook/`
+
+### 依赖安装
+
+| 依赖 | 安装方式 | 状态 |
 |------|----------|------|
-| `publishers/en/devto.js` | `node --check` | ✅ |
-| `publishers/en/medium.js` | `node --check` | ✅ |
-| `publishers/en/twitter.js` | `node --check` | ✅ |
-| `publishers/en/reddit.js` | `node --check` | ✅ |
-| `publishers/en/hashnode.js` | `node --check` | ✅ |
-| `publishers/cn/baijiahao.js` | `node --check` | ✅ |
-| `publishers/cn/csdn.js` | `node --check` | ✅ |
-| `publishers/cn/cookie-platforms.js` | `node --check` | ✅ |
+| Node.js marked/yaml/playwright | `npm install` | ✅ |
+| Python markdown/pyyaml/playwright | 系统已安装 | ✅ |
+| Playwright Chromium (Node) | `npx playwright install chromium` | ✅ |
+| Playwright Chromium (Python) | `python3 -m playwright install chromium` | ✅ |
 
-**结论：✅ 11 个文件全部语法正确**
+### 功能测试
+
+| 测试用例 | 命令 | 结果 |
+|----------|------|------|
+| Python 渲染 + playful-geometric 主题 | `python3 render_xhs.py example.md -t playful-geometric -m separator` | ✅ 封面 + 4 张卡片 |
+| Node.js 渲染 + retro 主题 | `node render_xhs.js example.md -t retro -m separator` | ✅ 封面 + 4 张卡片 |
+| PodAha 真实内容 + neo-brutalism | `python3 render_xhs.py podaha-example.md -t neo-brutalism -m separator` | ✅ 封面 + 5 张卡片 |
+| auto-split 自动分页模式 | （未测，逻辑相同，Python 脚本支持）| ⚪ 未测 |
+
+**输出规格：** 1080×1440px PNG，3:4 比例，符合小红书标准
+
+**结论：✅ 核心渲染功能全部通过，发布功能需配置 `XHS_COOKIE`**
 
 ---
 
-## 五、Skill 文件检查与修复
+## 五、`/videocut` — videocut-skills (Ceeon/videocut-skills)
 
-### 发现问题
+**安装路径：** `content/tools/videocut-skills/`
 
-原始 skill 文件使用了 `` !`cmd` `` 语法（较新的 `.claude/skills/SKILL.md` 格式的预处理语法），在 `.claude/commands/` 格式下不会自动执行，会作为普通代码块出现在 prompt 里。
+### 依赖检查
 
-### 修复方案
+| 依赖 | 状态 | 说明 |
+|------|------|------|
+| Node.js v25.7.0 | ✅ | 系统已安装 |
+| FFmpeg v8.0.1 | ✅ | 系统已安装 |
+| curl v8.7.1 | ✅ | 系统自带 |
+| VOLCENGINE_API_KEY | ❌ 待配置 | 需注册火山引擎 |
 
-重写三个 skill 文件，改为明确指示 Claude **用 Bash 工具执行**命令：
+### 脚本语法检查
 
-| Skill | 修复内容 |
-|-------|----------|
-| `/plan` | 移除 `!` 前缀，改为 `请用 Bash 工具运行以下命令` |
-| `/draft` | 明确说明参数须用 `=` 语法，加入各平台风格速查表 |
-| `/distribute` | 拆分为格式化/发布两个路径，env 检查改为 Bash 展开语法 |
+| 文件 | 结果 |
+|------|------|
+| `剪口播/scripts/generate_subtitles.js` | ✅ |
+| `剪口播/scripts/generate_review.js` | ✅ |
+| `剪口播/scripts/review_server.js` | ✅ |
+| `字幕/scripts/subtitle_server.js` | ✅ |
+| `剪口播/scripts/volcengine_transcribe.sh` | ✅ (shell，逻辑已审查) |
 
-### 模拟调用验证
+### 路径修复
 
-| Skill | 模拟方式 | 结果 |
-|-------|----------|------|
-| `/plan --status=planned` | 直接运行 weekly.js | ✅ 输出 5 个 planned 任务 |
-| `/draft "话题" --channel=zhihu --lang=zh` | 直接运行 generator.js | ✅ 生成知乎文章并保存 |
-| `/distribute articles/test-podaha.md` | 直接运行 distributor | ✅ 生成 5 个平台格式文件 |
-| `/distribute ... --publish --lang=en` | env 检查 + distributor | ✅ 所有未配置平台正确跳过 |
+原 SKILL.md 中 `SKILL_DIR` 硬编码为 `/Users/chengfeng/Desktop/AIos/...`，
+新 `/videocut` 命令文件中已更新为本机正确路径：
+`/Users/kin/marketing_workspace/podaha/content/tools/videocut-skills/剪口播`
 
-**结论：✅ Skill 文件修复后行为符合预期**
+### 限制
+
+完整流程（转录→剪辑）需要 VOLCENGINE_API_KEY，当前未配置，无法端到端测试。
+配置方式：
+```bash
+echo "VOLCENGINE_API_KEY=你的key" > content/tools/videocut-skills/.env
+# 获取: https://console.volcengine.com/speech/new/experience/asr
+```
+
+**结论：✅ 环境准备完毕，脚本语法全通，等待 API Key 后可完整使用**
+
+---
+
+## Skill 文件汇总
+
+| Skill | 文件 | 状态 |
+|-------|------|------|
+| `/plan` | `.claude/commands/plan.md` | ✅ |
+| `/draft` | `.claude/commands/draft.md` | ✅ |
+| `/distribute` | `.claude/commands/distribute.md` | ✅ |
+| `/redbook` | `.claude/commands/redbook.md` | ✅ |
+| `/videocut` | `.claude/commands/videocut.md` | ✅ |
 
 ---
 
@@ -116,12 +151,8 @@ _测试日期：2026-03-04_
 
 | 项目 | 状态 | 备注 |
 |------|------|------|
-| planning/weekly.js | ✅ | 4 种参数组合全部正确 |
-| content/generator.js | ✅（修复1 bug） | arg 解析 bug 已修复，两种语法均支持 |
-| distributor/index.js | ✅ | 8 种调用路径全部正确 |
-| 11 个发布器文件 | ✅ | 语法全部正确 |
-| /plan skill | ✅（已重写） | 移除 `!` 预处理歧义 |
-| /draft skill | ✅（已重写） | 明确参数格式和 Bash 调用方式 |
-| /distribute skill | ✅（已重写） | 分步骤明确，env 检查可用 |
-
-**所有待发布到有 Token/Cookie 的平台功能均在"跳过"状态，这是预期行为——配置对应 .env 变量即可激活。**
+| `/plan` (weekly.js) | ✅ | 4 种参数全通 |
+| `/draft` (generator.js) | ✅ 修复1 bug | arg 解析支持空格/等号两种写法 |
+| `/distribute` (11 publishers) | ✅ | 8 种调用路径 + 语法全通 |
+| `/redbook` (auto-redbook) | ✅ | Python+Node 双引擎，3 种主题实测 |
+| `/videocut` (videocut-skills) | ✅ 待 API Key | 脚本语法全通，路径已修正 |

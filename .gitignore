@@ -4,3 +4,7 @@ node_modules/
 .env
 dist/
 content/library/
+content/tools/*/node_modules/
+content/tools/*/*/node_modules/
+content/tools/*/.git/
+content/tools/*/*/.git/
