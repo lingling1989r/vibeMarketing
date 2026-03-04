@@ -1,36 +1,204 @@
-# vibeMarketing — PodAha Promo
+# vibeMarketing — PodAha 全渠道运营工作台
 
-AI-generated 16s promotional video for [podaha.com](https://podaha.com), built with **Remotion**.
+> AI 播客生产平台 [podaha.com](https://podaha.com) 的运营推广项目，覆盖中英文双渠道。
 
-## Project: `podaha/promo-video`
+---
 
-A 16-second vertical (1080×1920) promo video covering:
-- User pain points: podcast editing takes 5-8 hours per episode
-- Industry stats: 72% of podcasters quit, average show stops after 10 episodes
-- Solution: PodAha AI — denoise, transcribe, clip, publish in 1 hour
+## 目录
 
-### Stack
-- **Remotion** — React-based programmatic video
-- **macOS TTS** (Tingting voice) — Chinese voiceover
-- **ffmpeg** — audio mixing & synthesis
-- **Unsplash** — background images
+- [项目结构](#项目结构)
+- [运营渠道规划](#运营渠道规划)
+- [热点收集系统](#热点收集系统)
+- [内容策略](#内容策略)
+- [实施路线图](#实施路线图)
+- [待确认信息](#待确认信息)
 
-### Output
-`promo-video/out/podaha-promo-v2.mp4` — 1080×1920, H.264, 16s, with audio
+---
 
-### Run
-```bash
-cd promo-video
-npm install
-npm run start      # Remotion Studio preview
-npm run render     # Render vertical MP4
-npm run render:wide  # Render 16:9 MP4
+## 项目结构
+
+```
+vibeMarketing/
+├── README.md
+└── podaha/
+    ├── promo-video/          # Remotion 宣传视频 (已完成)
+    ├── channels/
+    │   ├── wechat/           # 微信公众号内容生产
+    │   ├── zhihu/            # 知乎问答内容
+    │   ├── long-form/        # 长文分发 (头条/知乎/掘金/Medium)
+    │   └── product-hunt/     # PH 打榜物料
+    ├── trending/             # 热点收集系统
+    │   ├── scrapers/         # 各平台热榜抓取脚本
+    │   ├── reports/          # 每日热点报告输出
+    │   └── config.json       # 平台配置
+    └── content/
+        ├── zh/               # 中文内容库
+        └── en/               # 英文内容库
 ```
 
-### Re-generate audio (macOS)
-```bash
-cd promo-video/public/audio
-say -v Tingting --rate=170 "录制一期播客，只需一个小时。" -o s1.aiff
-ffmpeg -y -i s1.aiff -ar 44100 -ac 1 -ab 128k s1.mp3
-# ... repeat for s2-s5, then run mix commands in README
+---
+
+## 运营渠道规划
+
+### 中文渠道
+
+| 渠道 | 内容形式 | 目标 | 发布频率 |
+|------|---------|------|---------|
+| **微信公众号** | 深度文章、工具测评、案例拆解 | 品牌认知 + 私域导流 | 2-3篇/周 |
+| **知乎** | 问答（播客相关问题下回答）、专栏文章 | SEO + 长尾流量 | 3-5条/周 |
+| **稀土掘金** | 技术向内容：AI音频处理、播客工具对比 | 开发者/IT群体 | 1-2篇/周 |
+| **头条/百家号** | 长文分发、热点结合内容 | 泛流量覆盖 | 同步中文长文 |
+| **小红书** | 种草笔记、操作截图流程 | 25-40岁女性用户 | 3-5条/周 |
+| **视频号/抖音** | 15s宣传视频（已生产）、教程短视频 | 播客创作者拉新 | 2-3条/周 |
+
+### 英文渠道
+
+| 渠道 | 内容形式 | 目标 | 发布频率 |
+|------|---------|------|---------|
+| **Product Hunt** | 产品页、评论互动、Hunter 招募 | 冷启动流量 + 国际曝光 | 一次性打榜活动 |
+| **IndieHackers** | 创业故事、产品进展帖 | 独立开发者群体 | 2-4篇/月 |
+| **Reddit** | r/podcasting / r/podcasters / r/entrepreneur | 真实用户场景讨论 | 3-5条/周 |
+| **Twitter/X** | 产品更新、数据卡片、用户故事 | 国际受众 + PH 预热 | 每日 1-2条 |
+| **Medium / Substack** | 深度英文长文：podcast production tips | SEO + 外链建设 | 2篇/月 |
+| **播客相关社区** | Podchaser, Podcast Movement 论坛, Buzzsprout blog 评论 | 精准播客创作者 | 持续参与 |
+
+### Product Hunt 打榜专项
+
+- **打榜时机**：周二/周三 00:01 PST（太平洋时间）
+- **前置准备**：
+  - 招募 5-10 个有影响力的 Hunter
+  - 提前 2 周在 Twitter/IH/Reddit 预热
+  - 准备英文 demo 视频（基于已有 Remotion 框架）
+  - 准备 First Comment（创始人故事 + 核心数据）
+  - 准备 Maker Comment 模板（回复每条评论）
+- **目标**：Top 5 of the Day → 冲击 Product of the Week
+
+---
+
+## 热点收集系统
+
+### 监控平台列表
+
+**中文平台**
+- 百度热搜榜 `https://top.baidu.com/board`
+- 微博热搜
+- 今日头条热榜
+- 知乎热榜 `https://www.zhihu.com/hot`
+- 稀土掘金热榜 `https://juejin.cn/hot`
+- 微信指数（关键词趋势）
+
+**英文平台**
+- IndieHackers Trending `https://www.indiehackers.com`
+- Hacker News Top `https://news.ycombinator.com`
+- Product Hunt Daily `https://www.producthunt.com`
+- Reddit r/podcasting Top
+- Podchaser 播客热榜
+- Podcast Movement 活动/话题
+- 知识付费类：Teachable Blog, Podia Blog, Transistor.fm Blog, Buzzsprout Blog
+
+### 热点关联策略
+
+每日生成热点报告后，系统自动：
+1. 识别与播客/内容创作/AI工具相关的热点
+2. 给出「结合度评分」（0-10）
+3. 输出可直接用于各渠道的内容创意建议
+4. 标注「适合中文渠道」/「适合英文渠道」/「双渠道」
+
+---
+
+## 内容策略
+
+### 三大目标用户画像（来自业务素材）
+
+| 用户类型 | 核心痛点 | 内容钩子 | 主要渠道 |
+|---------|---------|---------|---------|
+| **宝妈教育者** (25-40岁) | 直播/课程内容利用率低 | "把已有内容变睡后收入" | 微信公众号、小红书 |
+| **IT/技术人** (程序员/架构师) | 时间贵，技术门槛高 | "ROI: 0.2元/听众 vs 博客6元" | 掘金、知乎、Twitter |
+| **副业创业者** (25-45岁) | 找不到低成本起步方式 | "首年68000元案例" | 头条、抖音、IndieHackers |
+
+### 中英文内容分工
+
 ```
+中文内容：聚焦"省时间、做副业、低门槛"情绪共鸣
+英文内容：聚焦"AI workflow, time savings, indie creator" 数据驱动
+```
+
+### 内容生产 SOP
+
+1. **每日**：运行热点收集 → 筛选相关热点 → 生成内容创意
+2. **每周**：生产 2-3 篇中文长文 + 1 篇英文长文
+3. **每周**：知乎回答 3-5 个播客相关问题
+4. **每月**：掘金技术文 2 篇 + IndieHackers 进展帖 2 篇
+5. **持续**：维护公众号回复话术库、知乎私信模板
+
+---
+
+## 实施路线图
+
+### Phase 1 — 基础设施（第 1-2 周）
+
+- [ ] **热点收集系统 v1**：Node.js 脚本，每日抓取各平台热榜，输出 Markdown 报告
+- [ ] **项目目录结构**：建立 `channels/` 内容库框架
+- [ ] **内容模板库**：微信文章模板、知乎回答模板、英文推文模板
+- [ ] **整理历史素材**：将 BIP2026/PodAHA 的物料迁移、分类到本项目
+
+### Phase 2 — 内容生产（第 3-4 周）
+
+- [ ] **微信公众号**：首批 4 篇文章（结合热点，覆盖3个用户画像）
+- [ ] **知乎**：批量回答已有高流量问题（播客怎么做/AI工具/内容变现）
+- [ ] **掘金**：发布 1-2 篇技术向文章（AI音频处理原理 + PodAha使用技巧）
+- [ ] **英文 Twitter/X**：账号建设，前 20 条内容规划
+
+### Phase 3 — 打榜准备（第 5-6 周）
+
+- [ ] **PH 打榜物料包**：英文介绍文案、截图、demo 视频（基于 Remotion）
+- [ ] **预热社区**：IH 帖子、Reddit 讨论、Twitter 倒计时
+- [ ] **Hunter 名单**：整理 Top PH Hunter 联系方式
+- [ ] **首日互动脚本**：评论回复模板、Slack/Discord 互动群
+
+### Phase 4 — 规模化（第 7-8 周）
+
+- [ ] **热点 → 内容自动化**：结合热点报告自动生成内容草稿（Claude API）
+- [ ] **多平台同步发布脚本**：一键将内容推送到头条/百家号/掘金
+- [ ] **数据追踪**：各渠道流量、转化到 podaha.com 的数据看板
+
+---
+
+## 待确认信息
+
+在开始实施之前，需要你提供/确认以下信息：
+
+### 账号现状
+- [ ] 微信公众号是否已开通？账号名是什么？
+- [ ] 知乎账号是否已有粉丝基础？
+- [ ] Twitter/X 账号是否已开通？
+- [ ] 稀土掘金账号是否已有发布权限？
+- [ ] IndieHackers 账号是否已注册？
+
+### 打榜计划
+- [ ] PH 打榜期望时间？（建议提前 4 周开始准备）
+- [ ] 是否已有 English-speaking 的 Hunter 或社区资源？
+
+### 资源与分工
+- [ ] 运营是否是你一个人执行，还是有团队？
+- [ ] 内容生产是否需要 AI 辅助（Claude API），还是纯手动？
+- [ ] 每周可投入的运营时间大约多少小时？
+
+### 英文市场定位
+- [ ] 英文目标市场优先级：美国 > 东南亚 > 其他？
+- [ ] PodAha 的英文定价和中文是否一致？
+- [ ] 是否有英文 landing page 或已针对英语用户优化？
+
+### 内容偏好
+- [ ] 微信公众号风格偏好：干货教程型 / 故事情感型 / 数据分析型？
+- [ ] 是否授权使用真实用户案例数据（如素材中的68000元案例）？
+
+---
+
+## 已完成
+
+- [x] 15s 宣传视频（竖屏 1080×1920，含中文配音 + 背景音乐）→ `promo-video/out/podaha-promo-v2.mp4`
+
+---
+
+*更新于 2026-03-04*
