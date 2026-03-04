@@ -1,0 +1,254 @@
+{
+  "_comment": "PodAha Content Calendar — PH Launch Day: 2026-03-18. Run: npm run week",
+  "launchDate": "2026-03-18",
+  "timezone": "Asia/Shanghai",
+  "slots": [
+    {
+      "date": "2026-03-04",
+      "week": "D-14",
+      "theme": "Origin Story — Why podcasters burn out",
+      "tasks": [
+        {
+          "id": "d14-twitter-thread",
+          "channel": "twitter",
+          "lang": "en",
+          "type": "thread",
+          "topic": "7-tweet thread: I spent 7 hours editing a 45-min podcast",
+          "status": "ready",
+          "contentFile": "ph-launch/en/tweets-schedule.md",
+          "publishedAt": null,
+          "notes": "D-14 thread — all 7 tweets ready"
+        }
+      ]
+    },
+    {
+      "date": "2026-03-06",
+      "week": "D-12",
+      "theme": "Data — Production burnout stats",
+      "tasks": [
+        {
+          "id": "d12-twitter-stat",
+          "channel": "twitter",
+          "lang": "en",
+          "type": "tweet",
+          "topic": "72% of podcasters cite finding audience as #1 challenge",
+          "status": "ready",
+          "contentFile": "ph-launch/en/tweets-schedule.md",
+          "publishedAt": null,
+          "notes": "Pair with CardStats.png"
+        },
+        {
+          "id": "d12-zhihu",
+          "channel": "zhihu",
+          "lang": "zh",
+          "type": "qa",
+          "topic": "播客制作为什么这么累？有没有更高效的工作流？",
+          "status": "planned",
+          "contentFile": null,
+          "publishedAt": null
+        }
+      ]
+    },
+    {
+      "date": "2026-03-07",
+      "week": "D-11",
+      "theme": "Community insight — graveyard episodes",
+      "tasks": [
+        {
+          "id": "d11-twitter",
+          "channel": "twitter",
+          "lang": "en",
+          "type": "tweet",
+          "topic": "Spent morning chatting with 5 podcasters — graveyard of unpublished episodes",
+          "status": "ready",
+          "contentFile": "ph-launch/en/tweets-schedule.md",
+          "publishedAt": null
+        },
+        {
+          "id": "d11-wechat",
+          "channel": "wechat",
+          "lang": "zh",
+          "type": "article",
+          "topic": "那些录好了却从未发布的播客：创作者共同的\"墓地\"",
+          "status": "planned",
+          "contentFile": null,
+          "publishedAt": null
+        }
+      ]
+    },
+    {
+      "date": "2026-03-08",
+      "week": "D-10",
+      "theme": "Build in public — metrics update",
+      "tasks": [
+        {
+          "id": "d10-twitter",
+          "channel": "twitter",
+          "lang": "en",
+          "type": "tweet",
+          "topic": "Build in public: this month's numbers for PodAha",
+          "status": "ready",
+          "contentFile": "ph-launch/en/tweets-schedule.md",
+          "publishedAt": null,
+          "notes": "Fill in real [X] numbers first"
+        }
+      ]
+    },
+    {
+      "date": "2026-03-09",
+      "week": "D-9",
+      "theme": "Hot take — done > perfect",
+      "tasks": [
+        {
+          "id": "d9-twitter",
+          "channel": "twitter",
+          "lang": "en",
+          "type": "tweet",
+          "topic": "Hot take: best podcast gear is the one you'll actually use",
+          "status": "ready",
+          "contentFile": "ph-launch/en/tweets-schedule.md",
+          "publishedAt": null
+        },
+        {
+          "id": "d9-devto",
+          "channel": "devto",
+          "lang": "en",
+          "type": "article",
+          "topic": "How I cut podcast post-production from 8 hours to 1 hour with AI",
+          "status": "planned",
+          "contentFile": null,
+          "publishedAt": null,
+          "notes": "Also cross-post to Medium and Hashnode"
+        }
+      ]
+    },
+    {
+      "date": "2026-03-11",
+      "week": "D-7",
+      "theme": "PH Launch announcement",
+      "tasks": [
+        {
+          "id": "d7-twitter",
+          "channel": "twitter",
+          "lang": "en",
+          "type": "tweet",
+          "topic": "Launching on @ProductHunt in 7 days — PodAha demo video",
+          "status": "ready",
+          "contentFile": "ph-launch/en/tweets-schedule.md",
+          "publishedAt": null,
+          "notes": "Pair with CardLaunch.png + demo video"
+        },
+        {
+          "id": "d7-reddit",
+          "channel": "reddit",
+          "lang": "en",
+          "type": "post",
+          "topic": "I'm launching PodAha on PH in 7 days — would love feedback from r/podcasting",
+          "status": "planned",
+          "contentFile": null,
+          "publishedAt": null,
+          "notes": "Post to r/podcasting + r/SideProject"
+        },
+        {
+          "id": "d7-wechat",
+          "channel": "wechat",
+          "lang": "zh",
+          "type": "article",
+          "topic": "7天后，我们要在 Product Hunt 上线了",
+          "status": "planned",
+          "contentFile": null,
+          "publishedAt": null
+        }
+      ]
+    },
+    {
+      "date": "2026-03-13",
+      "week": "D-5",
+      "theme": "The core problem visualization",
+      "tasks": [
+        {
+          "id": "d5-twitter",
+          "channel": "twitter",
+          "lang": "en",
+          "type": "tweet",
+          "topic": "5 days until PH — here's the core problem in one chart",
+          "status": "ready",
+          "contentFile": "ph-launch/en/tweets-schedule.md",
+          "publishedAt": null,
+          "notes": "Pair with CardTime.png"
+        }
+      ]
+    },
+    {
+      "date": "2026-03-15",
+      "week": "D-3",
+      "theme": "Pre-launch ask",
+      "tasks": [
+        {
+          "id": "d3-twitter",
+          "channel": "twitter",
+          "lang": "en",
+          "type": "tweet",
+          "topic": "3 days until launch — here's what I'd love from you",
+          "status": "ready",
+          "contentFile": "ph-launch/en/tweets-schedule.md",
+          "publishedAt": null
+        }
+      ]
+    },
+    {
+      "date": "2026-03-17",
+      "week": "D-1",
+      "theme": "Eve of launch",
+      "tasks": [
+        {
+          "id": "d1-twitter",
+          "channel": "twitter",
+          "lang": "en",
+          "type": "tweet",
+          "topic": "Tomorrow we launch on @ProductHunt",
+          "status": "ready",
+          "contentFile": "ph-launch/en/tweets-schedule.md",
+          "publishedAt": null
+        }
+      ]
+    },
+    {
+      "date": "2026-03-18",
+      "week": "D-0",
+      "theme": "Launch Day",
+      "tasks": [
+        {
+          "id": "d0-twitter-launch",
+          "channel": "twitter",
+          "lang": "en",
+          "type": "tweet",
+          "topic": "WE'RE LIVE ON PRODUCT HUNT!",
+          "status": "ready",
+          "contentFile": "ph-launch/en/tweets-schedule.md",
+          "publishedAt": null
+        },
+        {
+          "id": "d0-twitter-2h",
+          "channel": "twitter",
+          "lang": "en",
+          "type": "tweet",
+          "topic": "2 hours in on @ProductHunt — thank you!",
+          "status": "ready",
+          "contentFile": "ph-launch/en/tweets-schedule.md",
+          "publishedAt": null
+        },
+        {
+          "id": "d0-twitter-eod",
+          "channel": "twitter",
+          "lang": "en",
+          "type": "tweet",
+          "topic": "Wrapping up launch day — results",
+          "status": "ready",
+          "contentFile": "ph-launch/en/tweets-schedule.md",
+          "publishedAt": null
+        }
+      ]
+    }
+  ]
+}

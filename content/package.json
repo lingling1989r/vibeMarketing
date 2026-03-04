@@ -1,0 +1,15 @@
+{
+  "name": "podaha-content",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "PodAha content production: templates + AI drafting",
+  "scripts": {
+    "draft":    "node generator.js",
+    "template": "node template.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.36.3",
+    "dayjs": "^1.11.10",
+    "marked": "^12.0.0"
+  }
+}

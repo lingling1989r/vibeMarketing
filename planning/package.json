@@ -1,0 +1,14 @@
+{
+  "name": "podaha-planning",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "PodAha editorial planning & content calendar",
+  "scripts": {
+    "week":     "node weekly.js",
+    "schedule": "node schedule.js",
+    "backlog":  "node backlog.js"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.10"
+  }
+}
